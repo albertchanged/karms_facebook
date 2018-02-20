@@ -18,17 +18,17 @@ alt="Rebasebook Demo" width="50%" border="10" /></a>
 
 1. Login or signup with your username
 2. Browse the News Feed
-  a. Like comments
-  b. Dislike comments
-  c. Click on a User's name
+* Like comments
+* Dislike comments
+* Click on a User's name
 3. Browser User Profiles
-  a. Edit Profiles from the 'About' section on the page
-  b. Save changes and view your new About section!
-  c. Add a User as a Friend
+* Edit Profiles from the 'About' section on the page
+* Save changes and view your new About section!
+* Add a User as a Friend
 4. Check out your own Profile
-  a. Now the added User is in your Friends list!
+* Now the added User is in your Friends list!
 5. Check out the News Feed again
-  a. Your new Friend's posts are now at the top of your Feed
+* Your new Friend's posts are now at the top of your Feed
 6. Log out using the 'Log Out' button!
 
 ## Technologies
