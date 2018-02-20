@@ -1,4 +1,4 @@
-# REBASEBOOK
+# Rebasebook
 
 Click on this GIF to watch a full demo!
 
