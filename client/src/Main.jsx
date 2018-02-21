@@ -18,26 +18,22 @@ class Main extends React.Component {
   }
   getProfile(user) {
     // axiox call to db to get profile
-    console.log('from index.jsx: ', user); 
     this.props.getProfile(user);
   }
   getUsername(username) {
-    console.log(username);
     this.setState({
       username: username
-    })
+    });
   }
   getNewUsername(newUsername) {
-    console.log(newUsername);
     this.setState({
       username: newUsername
-    })
+    });
   }
   getSignedIn(signedIn) {
-    console.log(signedIn);
     this.setState({
       signedIn: signedIn
-    })
+    });
   }
   render() {
     return (
@@ -54,7 +50,6 @@ class Main extends React.Component {
       </main>
     )
   }
-  
 }
 
 export default Main;

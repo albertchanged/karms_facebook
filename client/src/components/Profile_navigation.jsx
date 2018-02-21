@@ -5,7 +5,6 @@ class Profile_navigation extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return (
      <div className="profileNavigation">

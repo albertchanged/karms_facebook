@@ -80,7 +80,7 @@ app.post('/:username/posts', function(req, res) {
     } else {    
       res.status(200).json(data);   
     }   
-  })    
+  }); 
 });
 
 app.post('/likes/:author', function(req, res) {
@@ -164,8 +164,8 @@ app.get('/:firstname/:lastname', (req, res) => {
     } else {
       res.status(200).json(data);
     }
-  })
-})
+  });
+});
 // Get author of post
 app.get('/:username/post/author', (req, res) => {
   db.getPostAuthor(req.query.text, (err, data) => {
@@ -174,8 +174,8 @@ app.get('/:username/post/author', (req, res) => {
     } else {
       res.status(200).json(data);
     }
-  })
-})
+  });
+});
 // Add new user to db
 app.post('/:username', (req, res) => {
   var username = req.params.username;

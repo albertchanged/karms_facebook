@@ -11,7 +11,6 @@ class Profile_postSection extends React.Component {
       view: props.view
     }
   }
-
   render() {
     return (
       <div className={this.props.view === 'Timeline' ? "postSection" : "hide"}>
@@ -20,9 +19,7 @@ class Profile_postSection extends React.Component {
           :
           <span></span>
         }
-
         {this.props.isOwner ? 
-
           <List className="items">
           {
             this.props.posts.map((post, index) => (
@@ -35,9 +32,7 @@ class Profile_postSection extends React.Component {
             ))
           }
           </List>
-
           :
-
           <List className="visitorView">
           {
             this.props.posts.map((post, index) => (

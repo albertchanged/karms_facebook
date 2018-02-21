@@ -19,14 +19,12 @@ class SignIn extends React.Component {
       usernameError: false
     };
   }
-
   handleUsernameInput (e) { 
     this.setState({
       username: e.target.value,
       usernameError: false
     });
   }
-
   handleSubmit(e) {
     this.setState({
       newUser: true
@@ -41,7 +39,6 @@ class SignIn extends React.Component {
       });
     } else {
       $.get(`/${this.state.username}`, (data) => {
-        console.log(data[0]);
         if (data.length) {
           this.setState({
             username: data[0].username,

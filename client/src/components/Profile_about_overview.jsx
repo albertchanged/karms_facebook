@@ -14,7 +14,6 @@ class Profile_about_overview extends React.Component {
       fieldToEdit: ''               
     }
   }
-
   edit(e) {
     if (Object.values(this.state).indexOf('edit') !== -1) {
       alert('Please finish editing the open field');
@@ -27,7 +26,6 @@ class Profile_about_overview extends React.Component {
     editState['fieldToEdit'] = fieldToEdit;
     this.setState(editState);
   }
-
   createEditField() {
     return (
       <Form>
@@ -41,7 +39,6 @@ class Profile_about_overview extends React.Component {
       </Form>
     );
   }
-
   saveChanges() {
     let changes = document.getElementById('edits').value.replace(`'`, `''`);
     document.getElementById('edits').value = '';
@@ -49,7 +46,6 @@ class Profile_about_overview extends React.Component {
     this.props.updateProfile(data);
     this.cancelEditField();
   }
-
   cancelEditField() {
     this.setState({
       introView: 'display',
@@ -61,7 +57,6 @@ class Profile_about_overview extends React.Component {
       fieldToEdit: '' 
     });
   }
-
   render() {
     return (
       <div className={this.props.aboutView === 'overview' ? 'overview sectionDetails' : 'hide'} >

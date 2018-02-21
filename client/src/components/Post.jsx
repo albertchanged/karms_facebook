@@ -92,10 +92,10 @@ class Post extends React.Component {
       })
       .catch((err) => {
         console.error('This is the error', err);
-      })
+      });
     this.setState({
       redirect: true
-    })
+    });
   }
   getProfileInfo() {
     axios.get(`/${this.props.post.first_name}/${this.props.post.last_name}`)
@@ -104,8 +104,7 @@ class Post extends React.Component {
           .then((info) => {
             this.setState({
               profilePicUrl: info.data[0].user_data.profile_picture
-            })
-            console.log('This is the profile info', info);
+            });
           })
           .catch((err) => {
             console.error(err);
@@ -118,7 +117,6 @@ class Post extends React.Component {
   getLikers() {
     axios.get('/likers', { params: { 'text': this.props.post.post_text }})
       .then((likers) => {
-        console.log('Got all likers', likers);
         let likerStr = ''
         likers.data.map((liker) => {
           likerStr += `${liker.first_name} ${liker.last_name}<br>`

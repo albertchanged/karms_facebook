@@ -8,7 +8,6 @@ class Profile_photos extends React.Component {
       view: props.view
     }
   }
-
   render() {
     return (
       <div className={this.props.view === 'Timeline' ? "photosList" : "hide"}>

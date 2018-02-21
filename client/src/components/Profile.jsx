@@ -30,7 +30,6 @@ class Profile extends React.Component {
       clickedFriend: ''
     }
   }
-
   componentDidMount() {
     window.scrollTo(0, 0);
     this.getUserInfo(this.state.profilePageOwner);
@@ -38,7 +37,6 @@ class Profile extends React.Component {
     this.getFriends(this.state.profilePageOwner);
     this.getUserProfileInfo(this.state.profilePageOwner);
   }  
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.setState({
@@ -50,7 +48,6 @@ class Profile extends React.Component {
       this.getUserProfileInfo(nextProps.match.params.friendname);
     }
   }
-
   getUserInfo(user) {
     axios.get(`/${user}`)
       .then((responseUserInfo) => {
@@ -63,7 +60,6 @@ class Profile extends React.Component {
         console.log(error);
       }); 
   }
-
   getUserProfileInfo(user) {
     console.log('user...', user)
     axios.get(`/${user}/profilePage`)
@@ -77,7 +73,6 @@ class Profile extends React.Component {
         console.log(error);
       }); 
   }
-
   getUserPosts(user) {
     var username = this.state.username;
     axios.get(`/${username}/posts/${user}`)
@@ -90,7 +85,6 @@ class Profile extends React.Component {
         console.log(error);
       }); 
   }
-
   getFriends(user) {
     var username = this.state.username;
     axios.get(`/${username}/friendsList/${user}`)
@@ -106,7 +100,6 @@ class Profile extends React.Component {
         console.log(error);
       }); 
   }
-
   checkIfFriend(username, friendsList, otherUsername) {
     for (var i = 0; i < friendsList.length; i++) {
       var user = friendsList[i];
@@ -116,7 +109,6 @@ class Profile extends React.Component {
     }
     return false;
   }
-
   addFriend() {
     var username = this.state.username;
     var friendToAdd = this.state.profilePageOwner;
@@ -128,7 +120,6 @@ class Profile extends React.Component {
         console.log(error);
       }); 
   } 
-
   removeFriend() {
     var username = this.state.username;
     var friendToRemove = this.state.profilePageOwner;
@@ -140,13 +131,11 @@ class Profile extends React.Component {
         console.log(error);
       });
   }
-
   handleNavigation(event) {
     this.setState({
       view: event.target.id
     });
   }
-
   updateProfile(changes) {
     var username = this.state.username;
     axios.patch(`/${username}/updateProfile`, changes)
@@ -157,13 +146,11 @@ class Profile extends React.Component {
         console.log(error);
       }); 
   }
-
   getFriendName(friend) {
     this.setState({
       clickedFriend: friend
     });
   }
-
   render() {
     return (
       <div className="profile">

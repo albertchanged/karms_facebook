@@ -31,33 +31,24 @@ class App extends React.Component {
         name: res.data[0].first_name + ' ' + res.data[0].last_name,
         picture_url: res.data[0].picture_url,
         username: res.data[0].username
-      })
-
+      });
     })
     .catch((err) => {
-      console.log('err: ', err);
-    })
+      console.error('err: ', err);
+    });
   }
   render() {
     return (
       <div>
-
-        {/* <Feed /> */}
-        {/* { this.state.view === 'profile' ? <Profile /> : <PostList /> }
-        <br />
-        <PostList /> */}
         <Main getProfile={this.getProfile.bind(this)} />
-        {/* <Header /> */}
-        {/* <SignIn /> */}
-        {/* { this.state.view === 'feed' ? <PostList /> : <Profile /> } */}
         <br />
-
-        {(this.state.feed) ? <Profile 
-                                  username={this.state.username}
-                                  name={this.state.name} 
-                                  picture_url={this.state.picture_url} 
-                                  getProfile={this.getProfile.bind(this)}
-                                /> : null}
+        {(this.state.feed) ? 
+        <Profile 
+          username={this.state.username}
+          name={this.state.name} 
+          picture_url={this.state.picture_url} 
+          getProfile={this.getProfile.bind(this)}
+        /> : null}
       </div>
     )
   }

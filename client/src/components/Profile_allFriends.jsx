@@ -8,7 +8,6 @@ class Profile_allFriends extends React.Component {
       view: props.view
     }
   }
-
   render() {
     return (
       <div className={this.props.view === 'friends' ? "friendsContainer" : "hide"}>

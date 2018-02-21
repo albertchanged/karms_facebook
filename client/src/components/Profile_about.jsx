@@ -11,13 +11,11 @@ class Profile_about extends React.Component {
       aboutView: 'overview'
     }
   }
-
   changeAboutView(e) {
     this.setState({
       aboutView: e.target.id
     });
   }
-
   render() {
     return (
       <div className={this.props.view === 'about' ? "aboutContainer" : "hide"}>

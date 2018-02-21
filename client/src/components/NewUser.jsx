@@ -17,7 +17,6 @@ class NewUser extends React.Component {
       duplicateUsername: false
     }
   }
-
   handleInputChange(event) {
     const value = event.target.value;
     const name = event.target.name;
@@ -27,10 +26,8 @@ class NewUser extends React.Component {
       invalidInput: false
     });
   }
-
   handleSubmit() {
     if (!this.state.username || !this.state.firstName || !this.state.lastName) {
-      console.log('invalid account input')
       this.setState({
         invalidInput: true
       });
@@ -39,7 +36,6 @@ class NewUser extends React.Component {
         newUsername: this.state.username
       });
       $.post(`/${this.state.username}`, this.state, () => {
-        console.log('post into db done!')
         this.setState({
           redirect: true,
           newUsername: this.state.username
@@ -56,7 +52,6 @@ class NewUser extends React.Component {
       });
     }
   }
-  
   render() {
     let newUserFeedPath = '/' + this.state.newUsername + '/feed';
     if (this.state.redirect) {

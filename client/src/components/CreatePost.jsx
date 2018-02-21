@@ -13,13 +13,11 @@ class CreatePost extends React.Component {
     let postInput = document.getElementById('postInput').value.replace(`'`, `''`);
     let username = this.props.name;
     document.getElementById('postInput').value = '';
-    
     this.setState({
       postText: postInput
-    })
+    });
     axios.post(`/${username}/posts`, { 'text': postInput })
       .then((res) => {
-        console.log(res);
         this.props.getAllPosts ? this.props.getAllPosts() : this.props.renderNewPost(this.props.name);
       })
       .catch((err) => {

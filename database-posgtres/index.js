@@ -61,7 +61,7 @@ module.exports = {
       } else {
         callback(null, res.rows);
       }
-    })
+    });
   },
   unlikePost: (author, text, username, callback) => {
     let queryStr = 
@@ -78,7 +78,7 @@ module.exports = {
       } else {
         callback(null, res.rows);
       }
-    })
+    });
   },
   getLikeAmount: (text, callback) => {
     let queryStr =
@@ -120,7 +120,7 @@ module.exports = {
       } else {
         callback(null, res.rows);
       }
-    })
+    });
   },
   searchSomeone: (name, callback) => {
     const queryStr = `SELECT * FROM users WHERE username LIKE '%${name}%';`; // selects all names that begin with searched query
@@ -170,7 +170,7 @@ module.exports = {
       } else {  
         callback(null, res.rows);
       } 
-    })
+    });
   },
   getPostAuthor: (text, callback) => {
     let queryStr = 
@@ -182,7 +182,7 @@ module.exports = {
       } else {
         callback(null, res.rows);
       }
-    })
+    });
   },
   //add user to db
   addUser: (userData, callback) => {

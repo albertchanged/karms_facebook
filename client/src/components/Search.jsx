@@ -15,23 +15,20 @@ class SearchBar extends Component {
       redirect: false
     }
   }
-
   componentWillMount() {
     this.resetComponent()
   }
-
   componentDidMount() {
     this.getAllUsers();
   }
-
   getAllUsers() {
     var user = this.state.username;
     axios.get(`/search/users`)
     .then((response) => {
       let searchNames = response.data.map(function(user){
         return { 
-            "title": user.first_name + ' ' + user.last_name,
-            "description": user.username
+          "title": user.first_name + ' ' + user.last_name,
+          "description": user.username
         }
       });
       this.setState({
@@ -42,11 +39,9 @@ class SearchBar extends Component {
       console.log(error);
     }); 
   }
-
   resetComponent() {
     this.setState({ isLoading: false, results: [], value: '' })
   }
-
   handleResultSelect(e, { result }) { 
     //go to profile
     this.setState({
@@ -54,7 +49,6 @@ class SearchBar extends Component {
       clickedName: result.description
     });
   }
-
   handleSearchChange(e, { value }) {
     this.setState({ isLoading: true, value })
     setTimeout(() => {
@@ -64,10 +58,9 @@ class SearchBar extends Component {
       this.setState({
         isLoading: false,
         results: _.filter(this.state.source, isMatch),
-      })
+      });
     }, 500)
   }
-
   render() {
     const { isLoading, value, results, source } = this.state
     const profileUrl = '/' + this.state.clickedName + '/profile/' + this.props.loggedInUser;
