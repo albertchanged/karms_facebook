@@ -4,9 +4,6 @@ import { Button } from 'semantic-ui-react';
 class Profile_navigation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    }
   }
 
   render() {

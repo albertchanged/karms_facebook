@@ -17,10 +17,9 @@ class PostList extends React.Component {
     this.props.getAllPosts();
   }
   receivePostText(text) {
-    console.log(text);
     this.setState({
       receivedText: text
-    })
+    });
   }
   render() {
     console.log('This is the logged in name', this.props.name);

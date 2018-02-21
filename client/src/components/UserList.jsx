@@ -16,11 +16,9 @@ class UserList extends React.Component {
   getAllUsers() {
     axios.get()
       .then((res) => {
-
       })
       .catch((err) => {
-
-      })
+      });
   }
   selectUser(e) {
     this.setState({

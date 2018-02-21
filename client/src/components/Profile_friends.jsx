@@ -12,20 +12,10 @@ class Profile_friends extends React.Component {
     }
   }
   handleClickedFriend(event) {
-    // console.log('This is the friend', event.target);
-    // this.setState({
-    //   username: event.target.id,
-    //   redirect: true
-    // })
     this.props.getFriendName(event.target.id);
   }
   render() {
     let friendUrl = '/' + this.props.friend + '/profile/' + this.props.user;
-    console.log('This is the friend URL', friendUrl);
-    // if (this.state.redirect) {
-    //   console.log(this.state.redirect);
-    //   return <Redirect push to={friendUrl} />;
-    // }
     return (
       <div className={this.props.view === 'Timeline' ? "friendsList" : "hide"}>
         <Header className="header"> 

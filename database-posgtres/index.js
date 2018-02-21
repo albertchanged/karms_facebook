@@ -1,11 +1,9 @@
 const { Client } = require('pg');
-console.log('Initializing client');
-console.log('This is the database url', process.env.DATABASE_URL);
 const client = new Client({
-  connectionString: process.env.DATABASE_URL || 'postgres://rngo@localhost:5432/fb_database'
+  connectionString: process.env.DATABASE_URL || 'postgres://postgres@localhost:5432/fb_database'
 });
-
 client.connect();
+
 module.exports = {
   getAllUsers: (callback) => {
     client.query('SELECT * FROM users;', (err, res) => {
@@ -25,10 +23,9 @@ module.exports = {
         if (change[0] === 'profile_picture') {
           client.query(`UPDATE users set picture_url = '${change[1]}' WHERE username = '${username}'`, (err, res) => {
             if (err) {
-              console.log('error updating profile pic in users table', err);
               callback(err, null);
             } else {  
-              console.log('updated profile pic in users table');
+              console.error('updated profile pic in users table');
             }
           })
         }
@@ -37,11 +34,9 @@ module.exports = {
     });
   },
   createPost: (username, text, callback) => {
-    // console.log('This is my client', client);
     let queryStr =
-      `INSERT INTO posts (post_text, user_id)
-      VALUES ('${text}', (SELECT id FROM users WHERE username = '${username}'))`;
-    console.log('This is my query string', queryStr);
+    `INSERT INTO posts (post_text, user_id)
+    VALUES ('${text}', (SELECT id FROM users WHERE username = '${username}'))`;
     client.query(queryStr, (err, res) => {
       if (err) {
         callback(err, null);
@@ -49,7 +44,6 @@ module.exports = {
         console.log('Posting!');
         callback(null, res.rows);
       }
-      // client.end();
     });
   },
   likePost: (author, text, username, callback) => {
@@ -57,18 +51,14 @@ module.exports = {
     `INSERT INTO user_posts_liked (user_id, post_id) 
     VALUES ((SELECT id FROM users WHERE username = '${username}'),
     (SELECT posts.id FROM posts INNER JOIN users ON users.id = 
-      posts.user_id AND posts.post_text = 
-      '${text}' AND posts.user_id = 
-      (SELECT id FROM users WHERE username = '${author}')))`;
-      // console.log('This is my queryStr', queryStr);
-      // console.log('In DB', username);
-      // console.log('In DB', author);
-      // console.log('In DB', text);
+    posts.user_id AND posts.post_text = 
+    '${text}' AND posts.user_id = 
+    (SELECT id FROM users WHERE username = '${author}')))
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
         callback(err, null);
       } else {
-        // console.log('Liking post!');
         callback(null, res.rows);
       }
     })
@@ -78,56 +68,42 @@ module.exports = {
     `DELETE FROM user_posts_liked WHERE user_id = 
     (SELECT id FROM users WHERE username = '${username}')
     AND post_id = (SELECT posts.id FROM posts INNER JOIN users ON users.id = 
-      posts.user_id AND posts.post_text = 
-      '${text}' AND posts.user_id = 
-      (SELECT id FROM users WHERE username = '${author}'))`;
-      console.log('This is my queryStr', queryStr);
-      // console.log('In DB', username);
-      // console.log('In DB', friendname);
-      console.log('In DB', text);
+    posts.user_id AND posts.post_text = 
+    '${text}' AND posts.user_id = 
+    (SELECT id FROM users WHERE username = '${author}'))
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
         callback(err, null);
       } else {
-        console.log('Unliking post!');
         callback(null, res.rows);
       }
     })
   },
   getLikeAmount: (text, callback) => {
-    // console.log(username);
-    // console.log(text);
     let queryStr =
     `SELECT user_id FROM user_posts_liked WHERE post_id = 
-    (SELECT id FROM posts WHERE post_text = '${text}')`;
-    // console.log('This is my queryStr', queryStr);
+    (SELECT id FROM posts WHERE post_text = '${text}')
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
         callback(err, null);
       } else {
-        // console.log('Getting number of likes!');
         callback(null, res.rows);
       }
     });
   },
   getPersonalLikeAmount: (username, text, callback) => {
-    // console.log(username);
-    // console.log(text);
-    // let queryStr =
-    // `SELECT COUNT(user_id) FROM user_posts_liked INNER JOIN WHERE post_id = 
-    // (SELECT id FROM posts WHERE post_text = '${text}')`;
     let queryStr =
     `SELECT count(user_id) FROM user_posts_liked INNER JOIN 
     users ON users.id = user_posts_liked.user_id AND 
     user_posts_liked.user_id = (SELECT id FROM users WHERE username = '${username}') 
     WHERE post_id = (SELECT id FROM posts WHERE posts.post_text = '${text}');
-    `
-    console.log('This is my queryStr', queryStr);
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
         callback(err, null);
       } else {
-        // console.log('Getting number of likes!');
         callback(null, res.rows);
       }
     });
@@ -136,7 +112,8 @@ module.exports = {
     let queryStr =
     `SELECT users.first_name, users.last_name FROM users INNER JOIN 
     user_posts_liked ON users.id = user_posts_liked.user_id INNER JOIN 
-    posts ON posts.id = user_posts_liked.post_id AND posts.post_text = '${text}'`;
+    posts ON posts.id = user_posts_liked.post_id AND posts.post_text = '${text}'
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
         callback(err, null);
@@ -149,7 +126,6 @@ module.exports = {
     const queryStr = `SELECT * FROM users WHERE username LIKE '%${name}%';`; // selects all names that begin with searched query
     client.query(queryStr, (err, res) => {
       if (err) {
-        // console.log('error inside searchSomeone', err);
         callback(err, null);
       } else {
         callback(null, res.rows);
@@ -160,36 +136,28 @@ module.exports = {
     let queryStr = 'SELECT posts.*, users.first_name, users.last_name FROM posts INNER JOIN users ON users.id = posts.user_id ORDER BY id DESC';
     client.query(queryStr, (err, res) => {
       if (err) {
-        console.log('Error', err);
         callback(err, null);
       } else {
-        // console.log('Got all posts!!!!');
         callback(null, res.rows);
       }
     });
   },
   //find select username
   getUser: (username, callback) => {
-    console.log('in db getUser, looking for', username)
     client.query(`SELECT * FROM users WHERE username='${username}';`, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('searched for user in db')
         callback(null, res.rows);
       }  
     });
   },
   //retrieves all users
   getAllUsers: (callback) => {
-    // console.log('in db getUser, looking for', username)
     client.query(`SELECT * FROM users;`, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('searched for user in db', res.rows)
         callback(null, res.rows);
       }  
     });
@@ -198,10 +166,8 @@ module.exports = {
   getUsername: (firstname, lastname, callback) => {
     client.query(`SELECT username FROM users WHERE first_name='${firstname}' AND last_name='${lastname}'`, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        // console.log('Got username from db', res.rows)
         callback(null, res.rows);
       } 
     })
@@ -210,55 +176,43 @@ module.exports = {
     let queryStr = 
     `SELECT username FROM users INNER JOIN posts ON users.id = posts.user_id
     AND posts.post_text = '${text}'`;
-    console.log('This is my query', queryStr);
     client.query(queryStr, (err, res) => {
       if (err) {
-        console.log('Error', err);
         callback(err, null);
       } else {
-        // console.log('Got post author from db', res.rows);
         callback(null, res.rows);
       }
     })
   },
   //add user to db
   addUser: (userData, callback) => {
-    console.log('in db addUser start......', userData)
     client.query(`INSERT INTO users (username, first_name, last_name, picture_url) VALUES ('${userData.username}', '${userData.firstName}', '${userData.lastName}', '${userData.pictureUrl}');`, (err, res) => {
       if (err) {
         callback(err.detail, null);
       } else {  
-        console.log('added user in db!');
         callback(null, res.rows);
       }
     });
   },   
   addNewUserProfileInfo: (username, callback) => {
-    console.log('adding new user profile info', username);
     var defaultProfile = {};
     defaultProfile.profile_picture = '/images/profile_default.jpg'
     defaultProfile = JSON.stringify(defaultProfile);
-    console.log('defaultProfile', defaultProfile);
     client.query(`INSERT INTO user_profiles (user_id, user_data) VALUES ((SELECT id FROM users WHERE username='${username}'), '${defaultProfile}')`, (err, res) => {
       if (err) {
-        console.log('Error', err);
         callback(err, null);
       } else {  
-        console.log('added user in db!')
         callback(null, res.rows);
       }
     });
   },     
   getUserPosts: (username, callback) => {
-    // var queryStr = `SELECT posts.*, users.* FROM posts INNER JOIN users ON posts.user_id = users.id WHERE users.id = (SELECT users.id FROM users WHERE users.username = ${username})`;
-    // var queryStr = `SELECT posts.*, users.first_name, users.last_name FROM posts INNER JOIN users ON users.id = posts.user_id ORDER BY id DESC`;
     var query = {
       text: 'SELECT posts.*, users.* FROM posts INNER JOIN users ON posts.user_id = users.id WHERE users.id = (SELECT users.id FROM users WHERE users.username = $1) ORDER BY posts.id DESC',
       values: [username]
     };
     client.query(query, (err, res) => {
       if (err) {
-        console.log('error...', err);
         callback(err, null);
       } else {
         callback(null, res.rows);
@@ -267,67 +221,55 @@ module.exports = {
   },
   //add 2 rows to user_friends table
   addFriend: (username1, username2, callback) => {
-    console.log('in db addFriend')
-    let queryStr = `INSERT INTO user_friends (username, friend_id)
-      VALUES ('${username1}', (SELECT id FROM users WHERE username='${username2}')),
-      ('${username2}', (SELECT id FROM users WHERE username='${username1}'));`
+    let queryStr = 
+    `INSERT INTO user_friends (username, friend_id)
+    VALUES ('${username1}', (SELECT id FROM users WHERE username='${username2}')),
+    ('${username2}', (SELECT id FROM users WHERE username='${username1}'));
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('Added friendship in database!')
         callback(null, res.rows);
       }  
     });
   },
   getFriendsList: (username, callback) => {
-    // console.log('in db getFriendsList')
     let queryStr = `SELECT users.* FROM users INNER JOIN user_friends ON (user_friends.friend_id = users.id) WHERE user_friends.username = '${username}';`
     client.query(queryStr, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('friends list from db...')
         callback(null, res.rows);
       }  
     });
   },
   findPostsByFriends: (username, callback) => {
-    console.log('USERNAME IN FIND POSTS BY FRIENDS', username)
-    // console.log('in db findPostsByFriends')
     let queryStr =
     `SELECT posts.*, users.first_name, users.last_name FROM posts INNER JOIN 
     users ON users.id = posts.user_id INNER JOIN user_friends ON 
     (user_friends.friend_id = posts.user_id) AND user_friends.username = 
-    '${username}' ORDER BY posts.id DESC`;
-    // console.log('This is my queryStr', queryStr);
+    '${username}' ORDER BY posts.id DESC
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('/:username/posts/friends posts from db...')
         callback(null, res.rows);
       }  
     });
   },
   findPostsByNonFriends: (username, callback) => {
-    console.log('USERNAME IN FIND POSTS BY NON FRIENDS', username)
-    // console.log('in db findPostsByNonFriends')
     let queryStr = 
     `SELECT posts.*, users.first_name, users.last_name FROM posts 
     INNER JOIN users ON posts.user_id = users.id AND users.id IN (SELECT users.id FROM users WHERE users.id NOT IN (SELECT user_friends.friend_id 
-      FROM user_friends WHERE user_friends.username = 
-      '${username}')) ORDER BY posts.id DESC`;
+    FROM user_friends WHERE user_friends.username = 
+    '${username}')) ORDER BY posts.id DESC
+    `;
     client.query(queryStr, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('/:username/posts/nonfriends posts from db...')
-        // console.log('res', res);
         callback(null, res.rows);
       }  
     });
@@ -337,16 +279,12 @@ module.exports = {
     var queryTwo = `DELETE FROM user_friends where username = '${friendToRemove}' AND friend_id = (SELECT id FROM users WHERE username = '${username}')`;
     client.query(queryOne, (err, res) => {
       if (err) {
-        console.log('Error', err)
         callback(err, null);
       } else {  
-        console.log('successfully removed one permutation of friends');
         client.query(queryTwo, (err, res) => {
           if (err) {
-            console.log('Error', err)
             callback(err, null);
           } else {  
-            console.log('successfully removed both permutations of friends');
             callback(null, res.rows);
           }  
         });
@@ -354,18 +292,13 @@ module.exports = {
     });
   },
   getProfilePageInfo: (username, callback) => {
-    console.log('getting profile page info....');
     var query = `SELECT * from user_profiles WHERE user_id = (SELECT id FROM users WHERE username = '${username}')`;
-    console.log(query);
     client.query(query, (err, res) => {
       if (err) {
         callback(err, null);
       } else {  
-        // console.log('res', res);
         callback(null, res.rows);
       }  
     });
   }
 }
-
-// SELECT posts.*, users.first_name, users.last_name FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id IN (SELECT users.id FROM USERS WHERE users.id NOT IN (SELECT user_friends.friend_id FROM user_friends WHERE user_friends.username = 'mattupham')) ORDER BY posts.id DESC;

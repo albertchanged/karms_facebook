@@ -18,12 +18,10 @@ class Feed extends React.Component {
     this.getAllPosts();
   }
   getAllPosts() {
-    // console.log(this.props);
     let username = this.props.match.params.username;
-    console.log('username', username);
     this.setState({
       username: username
-    })
+    });
     //create new route
     axios.get(`/${username}/posts/friends`)
       .then((res1) => {
@@ -34,7 +32,7 @@ class Feed extends React.Component {
             //concats all friends posts, then all non-friends posts
             this.setState({
               postList: res1.data.concat(res2.data)
-            })
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -49,10 +47,6 @@ class Feed extends React.Component {
       <div className="feedContainer">
         <div className="feedSidebar">
           <div className = "feedSidebarUser">
-            {/* <Button icon labelPosition='left' fluid>
-              <Image src='/images/profile_default.jpg' />
-              User Name
-            </Button> */}
             <Button icon labelPosition='left' fluid className="feedSideBarUserButton">
               <Icon name='user' />
               {this.props.match.params.username}
@@ -151,57 +145,11 @@ class Feed extends React.Component {
                 <div className="feedSidebarTrendingTopicHeader">Advertisement</div>
                 <Item.Description>
                   <img className="adPic" src="/images/hackreactor.png" />
-                  {/* <Advertisement unit='medium rectangle' test='Medium Rectangle' centered="true"/> */}
                 </Item.Description>
-                {/* <Item.Extra>loremipsum.com</Item.Extra> */}
               </Item.Content>
               </Item>
             </Item.Group>
           </div>
-        </div>
-
-        <div className="feedSidebar">
-          
-          {/* <div className="feedSidebarTrending">
-            <p>Trending</p>
-            
-            <Item.Group className="feedSidebarTrendingItem">
-              <Item>
-                <Icon name='lightning' />
-                <Item.Content>  
-                  <div className="feedSidebarTrendingTopicHeader">Trending Topic</div>
-                  <Item.Description>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </Item.Description>
-                  <Item.Extra>loremipsum.com</Item.Extra>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-            <Item.Group className="feedSidebarTrendingItem">
-              <Item>
-                <Icon name='lightning' />
-                <Item.Content>  
-                  <div className="feedSidebarTrendingTopicHeader">Trending Topic</div>
-                  <Item.Description>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </Item.Description>
-                  <Item.Extra>loremipsum.com</Item.Extra>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-            <Item.Group className="feedSidebarTrendingItem">
-              <Item>
-                <Icon name='lightning' />
-                <Item.Content>  
-                  <div className="feedSidebarTrendingTopicHeader">Trending Topic</div>
-                  <Item.Description>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </Item.Description>
-                  <Item.Extra>loremipsum.com</Item.Extra>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-          </div> */}
         </div>
       </div>
     );

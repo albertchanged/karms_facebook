@@ -4,13 +4,9 @@ import { Header, Icon, Image, Button } from 'semantic-ui-react';
 class Profile_backgroundAndProfilePic extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    }
   }
 
   render() {
-    console.log('profile page info...', this.props.profilePageInfo.user_data)
     return (
       <div className={this.props.profilePageInfo.cover_picture ? "backgroundAndProfilePic" : "backgroundAndProfilePic defaultBackground"}>
         <Image className="backgroundPicture" src={this.props.profilePageInfo.cover_picture}></Image>

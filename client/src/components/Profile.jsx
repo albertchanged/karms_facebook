@@ -33,8 +33,6 @@ class Profile extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    console.log(this.props.match.params.friendname);
-    console.log(this.props.match.params.username);
     this.getUserInfo(this.state.profilePageOwner);
     this.getUserPosts(this.state.profilePageOwner);
     this.getFriends(this.state.profilePageOwner);
@@ -42,10 +40,7 @@ class Profile extends React.Component {
   }  
 
   componentWillReceiveProps(nextProps) {
-    // console.log('I received props');
     if (nextProps.location.pathname !== this.props.location.pathname) {
-      // console.log('Yes it is different');
-      console.log(nextProps.match.params.friendname);
       this.setState({
         profilePageOwner: nextProps.match.params.friendname
       });
@@ -57,8 +52,6 @@ class Profile extends React.Component {
   }
 
   getUserInfo(user) {
-    // var user = this.state.profilePageOwner;
-    // console.log(user, ' is profile owner');
     axios.get(`/${user}`)
       .then((responseUserInfo) => {
         this.setState({
@@ -72,7 +65,6 @@ class Profile extends React.Component {
   }
 
   getUserProfileInfo(user) {
-    // var user = this.state.profilePageOwner;
     console.log('user...', user)
     axios.get(`/${user}/profilePage`)
       .then((responseUserProfileInfo) => {
@@ -101,7 +93,6 @@ class Profile extends React.Component {
 
   getFriends(user) {
     var username = this.state.username;
-    // var otherUsername = user;
     axios.get(`/${username}/friendsList/${user}`)
       .then((response) => {
         console.log('friends list...', response.data);
@@ -109,7 +100,7 @@ class Profile extends React.Component {
         this.setState({
           friends: response.data,
           friend: isFriend
-        })
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -117,7 +108,6 @@ class Profile extends React.Component {
   }
 
   checkIfFriend(username, friendsList, otherUsername) {
-    console.log(username, friendsList);
     for (var i = 0; i < friendsList.length; i++) {
       var user = friendsList[i];
       if (user.username === username) {
@@ -159,7 +149,6 @@ class Profile extends React.Component {
 
   updateProfile(changes) {
     var username = this.state.username;
-    console.log('sending update profile request to server', changes);
     axios.patch(`/${username}/updateProfile`, changes)
       .then((response) => {
         this.getUserProfileInfo(this.state.profilePageOwner);
@@ -172,7 +161,7 @@ class Profile extends React.Component {
   getFriendName(friend) {
     this.setState({
       clickedFriend: friend
-    })
+    });
   }
 
   render() {

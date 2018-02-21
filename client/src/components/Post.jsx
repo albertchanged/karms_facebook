@@ -28,27 +28,24 @@ class Post extends React.Component {
         console.log('This is the number of likes', res.data.length);
         this.setState({
           likeCount: res.data.length
-        })
+        });
       })
       .catch((err) => {
         console.error('This is the error', err);
-      })
+      });
   }
   toggleLike() {
     this.executeToggleLike();
   }
   executeToggleLike() {
     let username = this.props.name;
-    console.log('liked.........', username);
     // Get the author's username
     axios.get(`/${username}/post/author`, { params: { 'text': this.props.post.post_text }})
       .then((author) => {
-        console.log('author', author.data[0].username);
         // Get the number of times you have liked the post
         axios.get(`/${username}/likes`, { params: { 'text': this.props.post.post_text }})
           .then((count) => {
             let personalLikeCount = count.data[0].count;
-            console.log(`${username} has liked this post ${personalLikeCount} times`);
             // If you haven't liked it yet
             if (personalLikeCount < 1) {
               axios.post(`/likes/${author.data[0].username}`, { 'text': this.props.post.post_text, 'username': username })
@@ -59,7 +56,7 @@ class Post extends React.Component {
                 })
                 .catch((err) => {
                   console.error('This is the err', err);
-                })
+                });
             } else { // Time to unlike!
               axios.delete(`/likes/${author.data[0].username}`, { params: { 'text': this.props.post.post_text, 'username': username }})
                 .then((res) => {
@@ -69,33 +66,32 @@ class Post extends React.Component {
                 })
                 .catch((err) => {
                   console.error('This is the err', err);
-                })
+                });
             }
           })
           .catch((err) => {
             console.log('Error getting personal like count', err);
-          })
+          });
       })
       .catch((err) => {
         console.error('Error', err);
-      })
+      });
   }
   handleClickedProfile() {
     axios.get(`/${this.props.post.first_name}/${this.props.post.last_name}`)
       .then((res) => {
-        console.log('This is the username', res);
         if (this.state.clickedUsername !== this.props.name) {
           this.setState({
             clickedUsername: res.data[0].username
-          })
+          });
         } else {
           this.setState({
             clickedUsername: this.props.name
-          })
+          });
         }
       })
       .catch((err) => {
-        console.log('This is the error', err);
+        console.error('This is the error', err);
       })
     this.setState({
       redirect: true
@@ -112,11 +108,11 @@ class Post extends React.Component {
             console.log('This is the profile info', info);
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           })
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       })
   }
   getLikers() {
@@ -126,23 +122,17 @@ class Post extends React.Component {
         let likerStr = ''
         likers.data.map((liker) => {
           likerStr += `${liker.first_name} ${liker.last_name}<br>`
-        })
-        console.log(likerStr);
+        });
         this.setState({
           likers: likerStr
-        })
+        });
       })
       .catch((err) => {
-        console.log('Error getting likers', err);
-      })
+        console.error('Error getting likers', err);
+      });
   }
   render() {
-    console.log('post owner',this.props.post.first_name);
-    console.log('logged in name', this.props.name)
-    // console.log('this is missing on own profile', this.state.clickedUsername)
-
     let clickedProfilePath = '/' + this.state.clickedUsername + '/profile/' + this.props.name;
-    console.log(clickedProfilePath);
     if (this.state.redirect) {
       return <Redirect push to={clickedProfilePath} />;
     }

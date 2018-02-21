@@ -37,13 +37,13 @@ class NewUser extends React.Component {
     } else {
       this.setState({
         newUsername: this.state.username
-      })
+      });
       $.post(`/${this.state.username}`, this.state, () => {
         console.log('post into db done!')
         this.setState({
           redirect: true,
           newUsername: this.state.username
-        })
+        });
         this.props.getNewUsername(this.state.username);
         this.props.getSignedIn(true);
       })

@@ -28,10 +28,9 @@ class SignIn extends React.Component {
   }
 
   handleSubmit(e) {
-    console.log('Submitting');
     this.setState({
       newUser: true
-    })
+    });
   }
   handleLogIn(e) {
     e.preventDefault();
@@ -51,7 +50,6 @@ class SignIn extends React.Component {
           });
           this.getUsername();
           this.props.getSignedIn(true);
-          console.log('need to route to feed for', this.state.username)
         } else {
           this.setState({
             newUser: true,
@@ -60,21 +58,18 @@ class SignIn extends React.Component {
             usernameError: true
           });
         }
-        console.log('in client siginin get request', data)
       })
     }  
   }
 
   handleSignUp(e) {
     e.preventDefault();
-    console.log('in sign up')
     this.setState({
       newUser: true
     });
   }
 
   getUsername() {
-    console.log('Getting username!');
     this.props.getUsername(this.state.username);
   }
 

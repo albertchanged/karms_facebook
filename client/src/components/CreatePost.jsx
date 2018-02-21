@@ -17,7 +17,6 @@ class CreatePost extends React.Component {
     this.setState({
       postText: postInput
     })
-    console.log('Creating a post');
     axios.post(`/${username}/posts`, { 'text': postInput })
       .then((res) => {
         console.log(res);

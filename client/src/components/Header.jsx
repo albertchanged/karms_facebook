@@ -10,7 +10,6 @@ class Header extends React.Component {
       profilePath: '',
       feedPath: '',
       redirectProfile: false,
-      // username: window.location.pathname.substring(1, window.location.pathname.indexOf('/feed'))
     }
   }
   getUserProfile(user) {
@@ -21,9 +20,7 @@ class Header extends React.Component {
   }
   render() {
     const profilePath = '/' + this.props.name + '/profile/' + this.props.name;
-    console.log(profilePath);
     const feedPath = '/' + this.props.name + '/feed';
-    console.log(feedPath);
     return (
       <div className="global-header">
         {

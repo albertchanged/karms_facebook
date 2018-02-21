@@ -63,7 +63,6 @@ class Profile_about_overview extends React.Component {
   }
 
   render() {
-    console.log('profile page info....', this.props.profilePageInfo);
     return (
       <div className={this.props.aboutView === 'overview' ? 'overview sectionDetails' : 'hide'} >
         <div className="detail shortIntro">
